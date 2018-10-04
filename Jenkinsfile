@@ -11,13 +11,13 @@ pipeline {
 
 		stage('Assuming IAM role') {
 			steps {
-				script {
+				//script {
 					ROLE_ARN=${jenkins}
 
 
 					set +x
 					aws sts assume-role --role-arn ${ROLE_ARN} \
-					--role-session-name jenkins | \
+					//--role-session-name jenkins | \
         				grep -w 'AccessKeyID\|SecretAccessKey\|SessionToken' | \
         				awk '{print $2}' | sed 's/\"//g;s/\,//' > awscre;\
        					export AWS_ACCESS_KEY_ID='sed -n '3p' awscre' ;\
@@ -25,7 +25,7 @@ pipeline {
         				export AWS_SECURITY_TOKEN='sed -n '2p' awscre'
   
 					set -x
-					}
+				//	}
 				}
 		 }
 
