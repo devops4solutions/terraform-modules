@@ -42,7 +42,7 @@ pipeline {
        		 }
 		stage('Infrastructure provisioning'){
 			steps {
-				cd dev
+				
 				sh 'terraform init'
 				sh 'terraform plan'
 				//sh 'terraform apply'
