@@ -24,7 +24,7 @@ pipeline {
 					
 					}
 				}
-		 }
+		 
 
 		//stage('Set Terraform path') {
             	//	steps {
