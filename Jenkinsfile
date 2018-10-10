@@ -12,18 +12,12 @@ pipeline {
 		stage('Assuming IAM role') {
 			steps {
 				script {
-					ROLE_ARN=${jenkins}
-
-
-					set +x
-					/usr/bin/env aws sts assume-role --region ${AWS_DEFAULT_REGION} --role-arn ${ROLE_ARN} --role-session-name "jenkins"  
-        				grep -w 'AccessKeyID\|SecretAccessKey\|SessionToken' | \
-        				awk '{print $2}' | sed 's/\"//g;s/\,//' > awscre;\
-       					export AWS_ACCESS_KEY_ID='sed -n '3p' awscre' ;\
-        				export AWS_SECRET_ACCESS_KEY='sed -n '1p' awscre';\
-        				export AWS_SECURITY_TOKEN='sed -n '2p' awscre'
-  
-					set -x
+					withAWS(role: jenkins, roleAccount: 531376854494 {
+						dir('dev')
+						{
+							sh 'terraform init'
+							sh 'terraform plan'}
+					
 					}
 				}
 		 }
@@ -39,15 +33,15 @@ pipeline {
                
             	//	}
        		 //}
-		stage('Infrastructure provisioning'){
-			steps {
-				dir('dev')
-				{
-				sh 'terraform init'
-				sh 'terraform plan' }
-				//sh 'terraform apply'
-			}
-		}
+		//stage('Infrastructure provisioning'){
+		//	steps {
+		//		dir('dev')
+		//		{
+		//		sh 'terraform init'
+		//		sh 'terraform plan' }
+		//		//sh 'terraform apply'
+		//	}
+		//}
 	}
 }
 
