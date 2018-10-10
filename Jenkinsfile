@@ -11,7 +11,7 @@ pipeline {
 
 		stage('Assuming IAM role') {
 			steps {
-				script {
+				
 					withAWS(role: jenkins, roleAccount: 531376854494 {
 						dir('dev')
 						{
