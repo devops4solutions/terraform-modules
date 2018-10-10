@@ -12,9 +12,10 @@ pipeline {
 		stage('Assuming IAM role') {
 			steps {
 				
-					withAWS(role: jenkins, roleAccount: 531376854494 {
+					withAWS(role: jenkins, roleAccount: 531376854494) {
 						
 						{
+							dir('dev')
 							sh 'terraform init'
 							sh 'terraform plan'
 						}
